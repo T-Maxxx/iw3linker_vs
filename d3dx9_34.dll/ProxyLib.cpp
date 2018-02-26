@@ -3,10 +3,10 @@
 
 namespace proxylib
 {
-    using FPD3DXGetShaderOutputSemantics = HRESULT(*)(const DWORD *pFunction, void *pSemantics, UINT *pCount);
-    using FPD3DXCreateBuffer = HRESULT(*)(DWORD NumBytes, void *ppBuffer);
-    using FPD3DXGetShaderInputSemantics = HRESULT(*)(const DWORD *pFunction, void *pSemantics, UINT *pCount);
-    using FPD3DXGetShaderConstantTable = HRESULT(*)(const DWORD *pFunction, void *ppConstantTable);
+    using FPD3DXGetShaderOutputSemantics = HRESULT(WINAPI*)(const DWORD *pFunction, void *pSemantics, UINT *pCount);
+    using FPD3DXCreateBuffer = int(WINAPI*)(DWORD NumBytes, DWORD ppBuffer);
+    using FPD3DXGetShaderInputSemantics = HRESULT(WINAPI*)(const DWORD *pFunction, void *pSemantics, UINT *pCount);
+    using FPD3DXGetShaderConstantTable = HRESULT(WINAPI*)(const DWORD *pFunction, void *ppConstantTable);
 
     template<class FP>
     FP GetLibFunction(HMODULE hLib_, const char* FunctionName_)
@@ -39,7 +39,7 @@ namespace proxylib
         return GetLibFunction<FPD3DXGetShaderOutputSemantics>(m_hOriginalLib, "D3DXGetShaderOutputSemantics")(pFunction, pSemantics, pCount);
     }
 
-    HRESULT CProxyLib::D3DXCreateBuffer(DWORD NumBytes, void *ppBuffer)
+    int CProxyLib::D3DXCreateBuffer(DWORD NumBytes, DWORD ppBuffer)
     {
         return GetLibFunction<FPD3DXCreateBuffer>(m_hOriginalLib, "D3DXCreateBuffer")(NumBytes, ppBuffer);
     }

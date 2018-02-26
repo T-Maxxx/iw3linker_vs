@@ -12,9 +12,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}</ProjectGuid>
+    <ProjectGuid>{47EBEE20-96B8-437E-B785-26EE4F8F1E5F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>database</RootNamespace>
+    <RootNamespace>hooklib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -82,21 +82,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="database.h" />
+    <ClInclude Include="BaseHook.h" />
+    <ClInclude Include="GlobalVar.h" />
+    <ClInclude Include="hooklib.h" />
+    <ClInclude Include="HookStorage.h" />
+    <ClInclude Include="IBaseHook.h" />
+    <ClInclude Include="JumpHook.h" />
+    <ClInclude Include="Memory.h" />
+    <ClInclude Include="NativeFunc.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="database.cpp" />
+    <ClCompile Include="BaseHook.cpp" />
+    <ClCompile Include="HookStorage.cpp" />
+    <ClCompile Include="JumpHook.cpp" />
+    <ClCompile Include="Memory.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\hooklib\hooklib.vcxproj">
-      <Project>{47ebee20-96b8-437e-b785-26ee4f8f1e5f}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

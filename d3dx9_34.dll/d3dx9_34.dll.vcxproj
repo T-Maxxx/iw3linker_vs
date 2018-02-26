@@ -67,7 +67,7 @@
       <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetPath)" "D:\Games\CoD4-MT\bin\$(TargetFileName)"</Command>
+      <Command>copy /Y "$(TargetPath)" "$(LINKER_PC_PATH)\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,7 +90,7 @@
       <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetPath)" "D:\Games\CoD4-MT\bin\$(TargetFileName)"</Command>
+      <Command>copy /Y "$(TargetPath)" "$(LINKER_PC_PATH)\$(TargetFileName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -101,7 +101,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="d3dx9_34.dll.cpp" />
+    <ClCompile Include="d3dx9_34.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="EntryPointPatch.cpp" />
     <ClCompile Include="Hashing.cpp" />

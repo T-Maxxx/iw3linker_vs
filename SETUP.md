@@ -1,0 +1,1 @@
+1. LINKER_PC_PATH environment variable -> cod4-mt-root\bin
