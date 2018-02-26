@@ -1,0 +1,6 @@
+LIBRARY d3dx9_34
+EXPORTS
+    D3DXGetShaderOutputSemantics=stub_D3DXGetShaderOutputSemantics
+    D3DXCreateBuffer=stub_D3DXCreateBuffer
+    D3DXGetShaderInputSemantics=stub_D3DXGetShaderInputSemantics
+    D3DXGetShaderConstantTable=stub_D3DXGetShaderConstantTable
