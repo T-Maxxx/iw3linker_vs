@@ -5,19 +5,41 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3dx9_34.dll", "d3dx9_34.dll\d3dx9_34.dll.vcxproj", "{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Target", "Target", "{9DC8C946-C5C0-4E43-BC13-57A0647142C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{B176CE30-14D2-4F61-83B5-ED1D620E9216}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "database", "database\database.vcxproj", "{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}.Debug|x64.ActiveCfg = Debug|Win32
 		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}.Debug|x86.ActiveCfg = Debug|Win32
 		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}.Debug|x86.Build.0 = Debug|Win32
+		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}.Release|x64.ActiveCfg = Release|Win32
 		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}.Release|x86.ActiveCfg = Debug|Win32
 		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}.Release|x86.Build.0 = Debug|Win32
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Debug|x64.ActiveCfg = Debug|x64
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Debug|x64.Build.0 = Debug|x64
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Debug|x86.ActiveCfg = Debug|Win32
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Debug|x86.Build.0 = Debug|Win32
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Release|x64.ActiveCfg = Release|x64
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Release|x64.Build.0 = Release|x64
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Release|x86.ActiveCfg = Release|Win32
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D4D6B798-C9C3-4EDA-B8AD-272131B44A07} = {9DC8C946-C5C0-4E43-BC13-57A0647142C9}
+		{235EFEBA-A30A-49D4-A6CE-6E07DCA94FDD} = {B176CE30-14D2-4F61-83B5-ED1D620E9216}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {672A0BC2-066F-4311-BF3E-FEA876289049}
