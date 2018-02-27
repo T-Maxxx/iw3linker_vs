@@ -4,7 +4,7 @@
 namespace proxylib
 {
     using FPD3DXGetShaderOutputSemantics = HRESULT(WINAPI*)(const DWORD *pFunction, void *pSemantics, UINT *pCount);
-    using FPD3DXCreateBuffer = int(WINAPI*)(DWORD NumBytes, DWORD ppBuffer);
+    using FPD3DXCreateBuffer = HRESULT(WINAPI*)(DWORD NumBytes, DWORD ppBuffer);
     using FPD3DXGetShaderInputSemantics = HRESULT(WINAPI*)(const DWORD *pFunction, void *pSemantics, UINT *pCount);
     using FPD3DXGetShaderConstantTable = HRESULT(WINAPI*)(const DWORD *pFunction, void *ppConstantTable);
 
@@ -39,7 +39,7 @@ namespace proxylib
         return GetLibFunction<FPD3DXGetShaderOutputSemantics>(m_hOriginalLib, "D3DXGetShaderOutputSemantics")(pFunction, pSemantics, pCount);
     }
 
-    int CProxyLib::D3DXCreateBuffer(DWORD NumBytes, DWORD ppBuffer)
+    HRESULT CProxyLib::D3DXCreateBuffer(DWORD NumBytes, DWORD ppBuffer)
     {
         return GetLibFunction<FPD3DXCreateBuffer>(m_hOriginalLib, "D3DXCreateBuffer")(NumBytes, ppBuffer);
     }

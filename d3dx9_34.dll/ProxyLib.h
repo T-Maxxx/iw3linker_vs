@@ -11,7 +11,7 @@ namespace proxylib
         bool IsReady() const;
 
         HRESULT D3DXGetShaderOutputSemantics(const DWORD *pFunction, void *pSemantics, UINT *pCount);
-        int D3DXCreateBuffer(DWORD NumBytes, DWORD ppBuffer);
+        HRESULT D3DXCreateBuffer(DWORD NumBytes, DWORD ppBuffer);
         HRESULT D3DXGetShaderInputSemantics(const DWORD *pFunction, void *pSemantics, UINT *pCount);
         HRESULT D3DXGetShaderConstantTable(const DWORD *pFunction, void *ppConstantTable);
 
