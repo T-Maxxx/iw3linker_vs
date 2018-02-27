@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3dx9_34.dll", "d3dx9_34.dll\d3dx9_34.dll.vcxproj", "{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3dx9_34.dll", "d3dx9_34\d3dx9_34.vcxproj", "{D4D6B798-C9C3-4EDA-B8AD-272131B44A07}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Target", "Target", "{9DC8C946-C5C0-4E43-BC13-57A0647142C9}"
 EndProject

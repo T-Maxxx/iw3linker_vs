@@ -101,9 +101,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="d3dx9_34.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="EntryPointPatch.cpp" />
+    <ClCompile Include="Exports.cpp" />
     <ClCompile Include="Hashing.cpp" />
     <ClCompile Include="ProxyLib.cpp" />
     <ClCompile Include="stdafx.cpp">
