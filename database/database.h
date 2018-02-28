@@ -1,6 +1,4 @@
 #pragma once
-
-namespace database
-{
-    void PatchDatabase();
-}
+#include "DatabaseModule.h"
+#include "allhooks.h"
+#include "globals.h"

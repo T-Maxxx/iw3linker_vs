@@ -16,7 +16,7 @@ namespace hooklib
     };
 
     void ReadFromMemory(void* FromAddress_, void* ToStorage_, size_t Size_);
-    void WriteToMemory(void* ToAddress_, void* FromStorage_, size_t Size_);
+    void WriteToMemory(void* ToAddress_, const void* FromStorage_, size_t Size_);
     EProtectMemoryFlags ProtectMemory(void* Where_, size_t Size_, EProtectMemoryFlags NewProtectType_);
 
     template <class T>
@@ -26,7 +26,7 @@ namespace hooklib
     }
 
     template <class T>
-    void WriteToMemory(uint ToAddress_, T* FromStorage_)
+    void WriteToMemory(uint ToAddress_, const T* FromStorage_)
     {
         WriteToMemory(reinterpret_cast<void*>(ToAddress_), FromStorage_, sizeof(T));
     }

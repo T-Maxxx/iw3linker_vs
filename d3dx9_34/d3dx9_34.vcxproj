@@ -16,6 +16,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>d3dx934dll</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>d3dx9_34 - Target proxy library</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -117,6 +118,12 @@
   <ItemGroup>
     <ProjectReference Include="..\database\database.vcxproj">
       <Project>{235efeba-a30a-49d4-a6ce-6e07dca94fdd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\hooklib\hooklib.vcxproj">
+      <Project>{47ebee20-96b8-437e-b785-26ee4f8f1e5f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\modman\modman.vcxproj">
+      <Project>{8663d0ac-5ccb-413e-b0f1-8dd14a705e74}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseHook.h"
+#include "HookStorage.h"
 
 namespace hooklib
 {
@@ -14,6 +15,14 @@ namespace hooklib
         {
             m_iRawTarget = reinterpret_cast<uint>(JumpTo_);
             m_bCallHook = bCallHook_;
+        }
+
+        template <class T>
+        static CJumpHook& CreateHook(uint Address_, T JumpTo_, bool bCallHook_ = false)
+        {
+            auto pHook = new CJumpHook(Address_, JumpTo_, bCallHook_);
+            GetHookStorage()->AddHook(pHook);
+            return *pHook;
         }
 
         ~CJumpHook();

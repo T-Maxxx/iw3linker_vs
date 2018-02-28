@@ -7,7 +7,7 @@ namespace hooklib
 
     CBaseHook::CBaseHook(uint StartAddress_, uint EndAddress_)
         : m_StartAddress(StartAddress_)
-        , m_EndAddress(EndAddress_)
+        , m_EndAddress(EndAddress_ - 1)
     {
         Install();
     }

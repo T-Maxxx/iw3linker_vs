@@ -54,6 +54,9 @@
     <ClInclude Include="IBaseHook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ReplaceFunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseHook.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\module</Filter>
+    </ClCompile>
+    <ClCompile Include="ReplaceFunc.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

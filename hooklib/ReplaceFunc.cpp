@@ -1,33 +1,28 @@
 #include "stdafx.h"
-#include "JumpHook.h"
+#include "ReplaceFunc.h"
 #include "Memory.h"
 
 namespace hooklib
 {
-    CJumpHook::~CJumpHook()
+    CReplaceFunc::~CReplaceFunc()
     {
         assert(!m_pOriginalInstruction && "WTF? Destructor called earlier than Release method RECHECK urself");
     }
 
-    void CJumpHook::Install()
+    void CReplaceFunc::Install()
     {
         assert(!m_pOriginalInstruction);
         m_pOriginalInstruction = new SJumpHook();
 
         ReadFromMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
-        SJumpHook hook(m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook), m_bCallHook);
+        SJumpHook hook(m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook), false);
         WriteToMemory(CBaseHook::GetStartAddress(), &hook);
     }
 
-    void CJumpHook::Release()
+    void CReplaceFunc::Release()
     {
         WriteToMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
         delete m_pOriginalInstruction;
         m_pOriginalInstruction = nullptr;
-    }
-
-    EHookType CJumpHook::GetHookType() const
-    {
-        return EHT_JumpHook;
     }
 }

@@ -17,6 +17,14 @@ namespace hooklib
     using uint = unsigned int;
     using byte = unsigned char;
 
-    // Various structs forward declaration.
-    struct SJumpHook;
+#pragma pack(push, 1)
+    struct SJumpHook
+    {
+        SJumpHook() : Opcode(0x00), Offset(0) {}
+        SJumpHook(uint Offset_, bool bCallHook_ = false) : Opcode(bCallHook_ ? 0xE8 : 0xE9), Offset(Offset_) {}
+
+        byte Opcode;
+        uint Offset;
+    };
+#pragma pack(pop)
 } // end namespace hooklib

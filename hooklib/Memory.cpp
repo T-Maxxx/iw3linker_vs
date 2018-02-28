@@ -8,7 +8,7 @@ namespace hooklib
         memcpy(ToStorage_, FromAddress_, Size_);
     }
 
-    void WriteToMemory(void * ToAddress_, void * FromStorage_, size_t Size_)
+    void WriteToMemory(void * ToAddress_, const void* FromStorage_, size_t Size_)
     {
         auto oldProtect = ProtectMemory(ToAddress_, Size_, PMF_RWX);
         memcpy(ToAddress_, FromStorage_, Size_);

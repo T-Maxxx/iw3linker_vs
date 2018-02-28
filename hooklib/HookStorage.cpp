@@ -14,6 +14,9 @@ namespace hooklib
 
     void CHookStorage::clear()
     {
+        for (IBaseHook* pHook : m_lstHooks)
+            delete pHook;
+
         m_lstHooks.clear();
     }
 
@@ -49,10 +52,7 @@ namespace hooklib
             uint iLeft = pItHook->GetStartAddress();
             uint iRight = pItHook->GetEndAddress();
 
-            if (iMyLeft >= iLeft && iMyLeft <= iRight)
-                return pItHook;
-
-            if (iMyRight >= iLeft && iMyRight <= iMyRight)
+            if (iMyRight >= iLeft && iRight >= iMyLeft)
                 return pItHook;
         }
         return nullptr;

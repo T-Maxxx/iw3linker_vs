@@ -1,16 +1,24 @@
 #pragma once
 #include "BaseHook.h"
 #include "Memory.h"
+#include "HookStorage.h"
 
 namespace hooklib
 {
     template <class T>
-    class GlobalVar : public CBaseHook
+    class CGlobalVar : public CBaseHook
     {
     public:
-        GlobalVar(uint Address_) : CBaseHook(Address_, Address_) {}
+        CGlobalVar(uint Address_) : CBaseHook(Address_, Address_ + sizeof(T)) {}
 
-        T& operator = (const T& Other_)
+        static CGlobalVar& CreateHook(uint Address_)
+        {
+            auto pHook = new CGlobalVar<T>(Address_);
+            GetHookStorage()->AddHook(pHook);
+            return *pHook;
+        }
+
+        CGlobalVar& operator = (const T& Other_)
         {
             WriteToMemory(GetStartAddress(), &Other_);
             return *this;
@@ -19,7 +27,7 @@ namespace hooklib
         operator T () const
         {
             T data;
-            ReadFromMemory(GetStartAddress, &data);
+            ReadFromMemory(GetStartAddress(), &data);
             return data;
         }
 
