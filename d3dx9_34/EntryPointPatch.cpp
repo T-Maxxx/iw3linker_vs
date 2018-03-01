@@ -31,10 +31,10 @@ int __cdecl FakeMain(const int argc, const char **const argv)
     manager.Patch();
 
     // Call original untouched winmain.
-    return (CNativeFunc<FPMain>::CreateHook(0x00416060)).Invoke(argc, argv);
+    return (CNativeFunc<FPMain>::Create(0x00416060, 0x004160C2))(argc, argv);
 }
 
 void PatchEntryPoint()
 {
-    CJumpHook::CreateHook(0x004B7944, FakeMain, true);
+    CJumpHook::Create(0x004B7944, FakeMain, true);
 }

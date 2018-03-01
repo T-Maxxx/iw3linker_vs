@@ -3,14 +3,15 @@
 
 namespace hooklib
 {
-    CBaseHook::CBaseHook(uint Address_) : CBaseHook(Address_, Address_) {}
+    CBaseHook::CBaseHook(uint Address_) 
+        : CBaseHook(Address_, 1)
+    {}
 
-    CBaseHook::CBaseHook(uint StartAddress_, uint EndAddress_)
-        : m_StartAddress(StartAddress_)
-        , m_EndAddress(EndAddress_ - 1)
+    
+    CBaseHook::CBaseHook(uint Address_, uint Size_)
+        : m_StartAddress(Address_)
+        , m_EndAddress(Address_ + Size_ - 1)
     {
-        // This constructor called always first.
-        Install();
     }
 
 
@@ -18,7 +19,26 @@ namespace hooklib
     {
         // This destructor called always last. So need to check if child class
         //   was destructed proper.
-        Release();
+        if (IsInstalled())
+        {
+            assert(!"This class was not properly destructed");
+            Release();
+        }
+    }
+
+    
+    void CBaseHook::Install()
+    {
+        if (IsInstalled())
+            return;
+
+        SetInstalled(true);
+    }
+
+    
+    void CBaseHook::Release()
+    {
+        SetInstalled(false);
     }
 
 
@@ -31,5 +51,17 @@ namespace hooklib
     uint CBaseHook::GetEndAddress() const
     {
         return m_EndAddress;
+    }
+
+
+    bool CBaseHook::IsInstalled() const
+    {
+        return m_bInstalled;
+    }
+
+
+    void CBaseHook::SetInstalled(bool bState_)
+    {
+        m_bInstalled = bState_;
     }
 }

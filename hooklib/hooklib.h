@@ -1,6 +1,6 @@
 #pragma once
-#include "HookStorage.h"
+#include "GlobalVar.h"
+// Below refactoring required.
 #include "JumpHook.h"
 #include "NativeFunc.h"
-#include "GlobalVar.h"
 #include "ReplaceFunc.h"

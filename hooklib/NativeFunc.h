@@ -4,30 +4,41 @@
 
 namespace hooklib
 {
-    // A helper class to perform native function call.
-    // TODO: function can be replaced so need to improve this class with range.
+    /**
+    \brief A helper class used to execute function from native code.
+    \param [in] Type_ - A type of function (pointer).
+    */
     template <class Type_>
     class CNativeFunc : public CBaseHook
     {
     public:
-        CNativeFunc(uint Address_) : CBaseHook(Address_)
+        /**
+        \brief A class factory.
+        \param [in] StartAddress_ - an address of first byte of a function.
+        \param [in] EndAddress_ - an address of LAST BYTE of a function.
+        */
+        static CNativeFunc& Create(uint StartAddress_, uint EndAddress_)
         {
-            Invoke = reinterpret_cast<Type_>(Address_);
+            return *static_cast<CNativeFunc*>(CHookStorage::Instance().AddHook(new CNativeFunc<Type_>(StartAddress_, EndAddress_)));
         }
 
-        static CNativeFunc& CreateHook(uint Address_)
+        /**
+        \brief Type cast operator.
+        */
+        operator Type_ ()
         {
-            auto pHook = new CNativeFunc<Type_>(Address_);
-            GetHookStorage()->AddHook(pHook);
-            return *pHook;
+            return Invoke;
+        }
+        
+    private:
+        /**
+        \brief Constructor. Same params as in factory.
+        */
+        CNativeFunc(uint StartAddress_, uint EndAddress_) : CBaseHook(StartAddress_, EndAddress_ - StartAddress_ + 1)
+        {
+            Invoke = reinterpret_cast<Type_>(StartAddress_);
         }
 
         Type_ Invoke;
-
-    protected:
-        EHookType GetHookType() const override final
-        {
-            return EHT_NativeFunc;
-        }
     };
 }

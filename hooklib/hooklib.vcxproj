@@ -89,7 +89,6 @@
     <ClInclude Include="GlobalVar.h" />
     <ClInclude Include="hooklib.h" />
     <ClInclude Include="HookStorage.h" />
-    <ClInclude Include="IBaseHook.h" />
     <ClInclude Include="JumpHook.h" />
     <ClInclude Include="Memory.h" />
     <ClInclude Include="NativeFunc.h" />

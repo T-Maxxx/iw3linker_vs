@@ -5,30 +5,49 @@
 
 namespace hooklib
 {
+    /**
+    \brief Helper class to access global variable by its address.
+    \param [in] T - type of global variable.
+    */
     template <class T>
     class CGlobalVar : public CBaseHook
     {
     public:
-        CGlobalVar(uint Address_) : CBaseHook(Address_, Address_ + sizeof(T)) {}
-
+        /**
+        \brief A class factory. Used to register hook in storage.
+        \param [in] Address_ - an address of a variable.
+        \return A reference to instance.
+        */
         static CGlobalVar& Create(uint Address_)
         {
-            auto pHook = new CGlobalVar<T>(Address_);
-            GetHookStorage()->AddHook(pHook);
-            return *pHook;
+            return *static_cast<CGlobalVar<T>*>(CHookStorage::Instance().AddHook(new CGlobalVar<T>(Address_)));
         }
 
+        /**
+        \brief Overloading for assignment. Used to update variable in native code.
+        */
         CGlobalVar& operator = (const T& Other_)
         {
             WriteToMemory(GetStartAddress(), &Other_);
             return *this;
         }
 
+        /**
+        \brief Type casting operator. Used to obtain variable value from memory.
+        */
         operator T () const
         {
             T data;
             ReadFromMemory(GetStartAddress(), &data);
             return data;
         }
+
+    private:
+        /**
+        \brief Constructor.
+        \param [in] Address_ - address of global variable in native code.
+        */
+        CGlobalVar(uint Address_) : CBaseHook(Address_, sizeof(T))
+        {}
     };
 }

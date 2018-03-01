@@ -11,23 +11,17 @@ namespace hooklib
 
     void CJumpHook::Install()
     {
-        assert(!m_pOriginalInstruction);
-        m_pOriginalInstruction = new SJumpHook();
-
-        ReadFromMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
+        ReadFromMemory(CBaseHook::GetStartAddress(), &m_OriginalInstruction);
         SJumpHook hook(m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook), m_bCallHook);
         WriteToMemory(CBaseHook::GetStartAddress(), &hook);
+
+        SetInstalled(true);
     }
 
     void CJumpHook::Release()
     {
-        WriteToMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
-        delete m_pOriginalInstruction;
-        m_pOriginalInstruction = nullptr;
-    }
+        WriteToMemory(CBaseHook::GetStartAddress(), &m_OriginalInstruction);
 
-    EHookType CJumpHook::GetHookType() const
-    {
-        return EHT_JumpHook;
+        SetInstalled(false);
     }
 }

@@ -17,6 +17,8 @@ namespace hooklib
         ReadFromMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
         SJumpHook hook(m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook), false);
         WriteToMemory(CBaseHook::GetStartAddress(), &hook);
+
+        SetInstalled(true);
     }
 
     void CReplaceFunc::Release()
@@ -24,5 +26,7 @@ namespace hooklib
         WriteToMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
         delete m_pOriginalInstruction;
         m_pOriginalInstruction = nullptr;
+
+        SetInstalled(false);
     }
 }

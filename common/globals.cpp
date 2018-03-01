@@ -6,5 +6,5 @@ using namespace hooklib;
 
 namespace common
 {
-    CNativeFunc<FPComAssert>& Com_Assert = CNativeFunc<FPComAssert>::CreateHook(0x0048E6A0);
+    CNativeFunc<FPComAssert>& Com_Assert = CNativeFunc<FPComAssert>::Create(0x0048E6A0, 0x0048E806);
 }

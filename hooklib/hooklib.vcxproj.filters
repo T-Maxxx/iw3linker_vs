@@ -51,9 +51,6 @@
     <ClInclude Include="NativeFunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IBaseHook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ReplaceFunc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
