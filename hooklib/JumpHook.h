@@ -18,7 +18,7 @@ namespace hooklib
         }
 
         template <class T>
-        static CJumpHook& CreateHook(uint Address_, T JumpTo_, bool bCallHook_ = false)
+        static CJumpHook& Create(uint Address_, T JumpTo_, bool bCallHook_ = false)
         {
             auto pHook = new CJumpHook(Address_, JumpTo_, bCallHook_);
             GetHookStorage()->AddHook(pHook);

@@ -11,7 +11,7 @@ namespace hooklib
     public:
         CGlobalVar(uint Address_) : CBaseHook(Address_, Address_ + sizeof(T)) {}
 
-        static CGlobalVar& CreateHook(uint Address_)
+        static CGlobalVar& Create(uint Address_)
         {
             auto pHook = new CGlobalVar<T>(Address_);
             GetHookStorage()->AddHook(pHook);
@@ -29,12 +29,6 @@ namespace hooklib
             T data;
             ReadFromMemory(GetStartAddress(), &data);
             return data;
-        }
-
-    protected:
-        EHookType GetHookType() const override final
-        {
-            return EHT_GlobalVar;
         }
     };
 }

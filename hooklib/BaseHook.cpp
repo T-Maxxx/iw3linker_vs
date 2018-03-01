@@ -9,12 +9,15 @@ namespace hooklib
         : m_StartAddress(StartAddress_)
         , m_EndAddress(EndAddress_ - 1)
     {
+        // This constructor called always first.
         Install();
     }
 
 
     CBaseHook::~CBaseHook()
     {
+        // This destructor called always last. So need to check if child class
+        //   was destructed proper.
         Release();
     }
 
@@ -28,10 +31,5 @@ namespace hooklib
     uint CBaseHook::GetEndAddress() const
     {
         return m_EndAddress;
-    }
-
-    EHookType CBaseHook::GetHookType() const
-    {
-        return EHT_Unknown;
     }
 }

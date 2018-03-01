@@ -6,7 +6,7 @@ namespace hooklib
 {
     CJumpHook::~CJumpHook()
     {
-        assert(!m_pOriginalInstruction && "WTF? Destructor called earlier than Release method RECHECK urself");
+        Release();
     }
 
     void CJumpHook::Install()
