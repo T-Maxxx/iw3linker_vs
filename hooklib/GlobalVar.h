@@ -26,9 +26,20 @@ namespace hooklib
         /**
         \brief Overloading for assignment. Used to update variable in native code.
         */
-        CGlobalVar& operator = (const T& Other_)
+        template<class Type_>
+        CGlobalVar& operator = (const Type_& Other_)
         {
             WriteToMemory(GetStartAddress(), &Other_);
+            return *this;
+        }
+
+        /**
+        \brief Overloading for class assignment. Used to copy from one class instance to other.
+        */
+        CGlobalVar& operator = (const CGlobalVar& Other_)
+        {
+            *this = (T)Other_;
+            //WriteToMemory(GetStartAddress(), );
             return *this;
         }
 

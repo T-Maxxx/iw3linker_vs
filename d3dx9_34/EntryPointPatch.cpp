@@ -25,6 +25,7 @@ int __cdecl FakeMain(const int argc, const char **const argv)
     // Add modules.
     manager.AddModule(common::CCommonModule::GetModule());
     manager.AddModule(database::CDatabaseModule::GetModule());
+    // Utility is not a module actually, but used to define some project-wide macro or types.
 
     // Process modules' logic.
     manager.InitGlobals();
