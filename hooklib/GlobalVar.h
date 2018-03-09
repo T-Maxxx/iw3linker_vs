@@ -34,13 +34,33 @@ namespace hooklib
         }
 
         /**
+        \brief Overloading for short increasing.
+        */
+        template <class Type_>
+        CGlobalVar& operator += (const Type_& Other_)
+        {
+            const T from = Raw() + Other_;
+            WriteToMemory(GetStartAddress(), &from);
+            return *this;
+        }
+
+        /**
         \brief Overloading for class assignment. Used to copy from one class instance to other.
         */
         CGlobalVar& operator = (const CGlobalVar& Other_)
         {
             *this = (T)Other_;
-            //WriteToMemory(GetStartAddress(), );
             return *this;
+        }
+
+        /**
+        \brief Returns raw data which is pointed by this hook.
+        */
+        T Raw() const
+        {
+            T data;
+            ReadFromMemory(GetStartAddress(), &data);
+            return data;
         }
 
         /**
@@ -48,9 +68,7 @@ namespace hooklib
         */
         operator T () const
         {
-            T data;
-            ReadFromMemory(GetStartAddress(), &data);
-            return data;
+            return Raw();
         }
 
     private:

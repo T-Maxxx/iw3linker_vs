@@ -86,6 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseHook.h" />
+    <ClInclude Include="GlobalArr.h" />
     <ClInclude Include="GlobalVar.h" />
     <ClInclude Include="hooklib.h" />
     <ClInclude Include="HookStorage.h" />
