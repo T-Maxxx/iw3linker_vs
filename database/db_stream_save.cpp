@@ -190,7 +190,8 @@ namespace database
         {
             QASSERT(Size_ > 0);
             // Cur size + requested size <= max size;
-            QASSERTFMT((DB_GetStreamPos() + Size_) - g_streamZoneMem.Raw()->blocks[g_streamPosIndex.Raw()].data <= g_streamBlockSize[g_streamPosIndex], "Attempt to overflow stream memory block\n\tRequested size: %d\n\tStream index: %d", Size_, g_streamZoneMem);
+            QASSERTFMT((DB_GetStreamPos() + Size_) - g_streamZoneMem.Raw()->blocks[g_streamPosIndex.Raw()].data <= g_streamBlockSize[g_streamPosIndex],
+                "Attempt to overflow stream memory block\n\tRequested size: %d\n\tStream index: %d", Size_, g_streamZoneMem);
 
             if ((unsigned int)(g_streamPosIndex - 1) < 3)
             {
