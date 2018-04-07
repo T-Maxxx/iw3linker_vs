@@ -1,5 +1,6 @@
 #pragma once
 #include "utility/utility.h"
+#include "types.h"
 
 namespace database
 {
@@ -22,4 +23,7 @@ namespace database
 
     utility::byte* _cdecl DB_GetStreamPos();
     void _cdecl DB_IncStreamPos(int Size_);
+
+    void _cdecl DB_InitXFile(xfile_t *pXFile_);
+    void _cdecl DB_UpdateXFileSizes();
 } // end namespace database

@@ -8,7 +8,7 @@ using namespace utility;
 
 namespace database
 {
-    static bool g_bPatchedAlloc = false;
+    //static bool g_bPatchedAlloc = false;
     static byte g_HeapMem[STREAM_OUT_SIZE + STREAM_SIZE + TEMP_STREAM_SIZE];
 
     void DB_ReserveStreamMemory()
@@ -48,7 +48,7 @@ namespace database
         g_streamOutMemory = g_HeapMem;
         g_streamMemory = g_streamOutMemory + STREAM_OUT_SIZE;
         g_tempStreamMemory = g_streamMemory + STREAM_SIZE;
-        g_bPatchedAlloc = true;
+        //g_bPatchedAlloc = true;
 #pragma endregion
     }
 
@@ -70,10 +70,9 @@ namespace database
 #endif
 #pragma endregion
 
-        g_streamOutMemory = 0;
-        g_tempStreamMemory = 0;
-        g_streamMemory = 0;
-
+        g_streamOutMemory = nullptr;
+        g_tempStreamMemory = nullptr;
+        g_streamMemory = nullptr;
     }
 
     void DB_InitStream()
@@ -190,8 +189,8 @@ namespace database
         {
             QASSERT(Size_ > 0);
             // Cur size + requested size <= max size;
-            QASSERTFMT((DB_GetStreamPos() + Size_) - g_streamZoneMem.Raw()->blocks[g_streamPosIndex.Raw()].data <= g_streamBlockSize[g_streamPosIndex],
-                "Attempt to overflow stream memory block\n\tRequested size: %d\n\tStream index: %d", Size_, g_streamZoneMem);
+            QASSERTFMT((uint)((DB_GetStreamPos() + Size_) - g_streamZoneMem.Raw()->blocks[g_streamPosIndex.Raw()].data) <= g_streamBlockSize[g_streamPosIndex],
+                "Attempt to overflow stream memory block\n\tRequested size: %d\n\tStream index: %d", Size_, g_streamPosIndex.Raw());
 
             if ((unsigned int)(g_streamPosIndex - 1) < 3)
             {
@@ -230,7 +229,7 @@ namespace database
 
     }
 
-    utility::byte* DB_AllocStreamPosSave(int Size_)
+    byte* DB_AllocStreamPosSave(int Size_)
     {
         QASSERT(g_streamPosSave);
         QASSERT(g_streamPosSave >= g_streamPosStart);
@@ -262,5 +261,31 @@ namespace database
     {
         QASSERT(g_streamPos);
         g_streamPos += Size_;
+    }
+
+    void DB_InitXFile(xfile_t *pXFile_)
+    {
+        memset(pXFile_, 0, sizeof(xfile_t));
+        uint size = 4096;
+        for (int i = 0; i < MAX_XFILE_COUNT; ++i)
+        {
+            pXFile_->blocks[i].data = (byte *)size;
+            size += g_streamBlockSize[i];
+            QASSERT(pXFile_->blocks[i].data);
+        }
+    }
+
+    void DB_UpdateXFileSizes()
+    {
+        QASSERT(!g_streamPosIndex);
+
+        g_streamZoneMem.Raw()->blocks[0].size = g_streamSize;
+        QASSERT(g_streamZoneMem.Raw()->blocks[XFILE_BLOCK_TEMP].size <= g_streamBlockSize[XFILE_BLOCK_TEMP]);
+
+        for (int i = 1; i < MAX_XFILE_COUNT; ++i)
+        {
+            g_streamZoneMem.Raw()->blocks[i].size = g_streamBlockMem[i] - (uint)g_streamZoneMem.Raw()->blocks[i].data;
+            QASSERT(g_streamZoneMem.Raw()->blocks[i].size <= g_streamBlockSize[i]);
+        }
     }
 }

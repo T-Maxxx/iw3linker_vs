@@ -13,10 +13,10 @@ namespace database
     void CDatabaseModule::InitGlobals() const
     {
         // This globals are just marked to track hooks interceptions.
-        hooklib::CGlobalVar<byte*>::Create(0x0065696C); // g_streamMemory
-        hooklib::CGlobalVar<byte*>::Create(0x00656968); // g_tempStreamMemory
-        hooklib::CGlobalVar<byte*>::Create(0x00656B70); // g_streamOutMemory
-        hooklib::CGlobalArr<uint, 9>::Create(0x005109F8); // g_streamBlockSize
+        CGlobalVar<byte*>::Create(0x0065696C); // g_streamMemory
+        CGlobalVar<byte*>::Create(0x00656968); // g_tempStreamMemory
+        CGlobalVar<byte*>::Create(0x00656B70); // g_streamOutMemory
+        CGlobalArr<uint, 9>::Create(0x005109F8); // g_streamBlockSize
     }
 
     void CDatabaseModule::Patch() const
@@ -40,6 +40,10 @@ namespace database
 
         CReplaceFunc::Create(0x0049EE50, 0x0049EE55, DB_GetStreamPos);
         CReplaceFunc::Create(0x0049EE80, 0x0049EEBD, DB_IncStreamPos);
+
+
+        CReplaceFunc::Create(0x0044A9D0, 0x0044AA29, DB_InitXFile);
+        CReplaceFunc::Create(0x0044AA30, 0x0044AAF0, DB_UpdateXFileSizes);
     }
 
     CDatabaseModule* CDatabaseModule::GetModule()
