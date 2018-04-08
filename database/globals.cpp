@@ -24,5 +24,6 @@ namespace database
     CGlobalVar<int>& g_streamDelayIndex = CGlobalVar<int>::Create(0x118A54B4);
     CGlobalArr<int, 0x2000>& g_streamDelayArray = CGlobalArr<int, 0x2000>::Create(0x118A54E8);
     CGlobalVar<uint>& g_streamSize = CGlobalVar<uint>::Create(0x118A54BC);
-    CGlobalArr<uint, MAX_XFILE_COUNT>& g_streamBlockMem = CGlobalArr<uint, MAX_XFILE_COUNT>::Create(0x118A54C0);
+    CGlobalArr<byte*, MAX_XFILE_COUNT>& g_streamBlockMem = CGlobalArr<byte*, MAX_XFILE_COUNT>::Create(0x118A54C0);
+    CGlobalVar<uint>& g_streamPosStackIndex = CGlobalVar<uint>::Create(0x118A54A8);
 }

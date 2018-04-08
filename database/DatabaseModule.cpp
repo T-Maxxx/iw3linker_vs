@@ -41,9 +41,10 @@ namespace database
         CReplaceFunc::Create(0x0049EE50, 0x0049EE55, DB_GetStreamPos);
         CReplaceFunc::Create(0x0049EE80, 0x0049EEBD, DB_IncStreamPos);
 
-
         CReplaceFunc::Create(0x0044A9D0, 0x0044AA29, DB_InitXFile);
         CReplaceFunc::Create(0x0044AA30, 0x0044AAF0, DB_UpdateXFileSizes);
+
+        CReplaceFunc::Create(0x0049EC60, 0x0049ECDE, DB_InitZoneMem);
     }
 
     CDatabaseModule* CDatabaseModule::GetModule()

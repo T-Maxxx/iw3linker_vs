@@ -26,4 +26,6 @@ namespace database
 
     void _cdecl DB_InitXFile(xfile_t *pXFile_);
     void _cdecl DB_UpdateXFileSizes();
+
+    void _cdecl DB_InitZoneMem(xfile_t *pXFile_);
 } // end namespace database

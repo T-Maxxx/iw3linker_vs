@@ -22,7 +22,8 @@ namespace database
     extern hooklib::CGlobalVar<int>& g_streamDelayIndex;
     extern hooklib::CGlobalArr<int, 0x2000>& g_streamDelayArray;
     extern hooklib::CGlobalVar<utility::uint>& g_streamSize;
-    extern hooklib::CGlobalArr<utility::uint, MAX_XFILE_COUNT>& g_streamBlockMem;
+    extern hooklib::CGlobalArr<utility::byte*, MAX_XFILE_COUNT>& g_streamBlockMem;
+    extern hooklib::CGlobalVar<utility::uint>& g_streamPosStackIndex;
 
     extern utility::byte* g_streamMemory;
     extern utility::byte* g_tempStreamMemory;

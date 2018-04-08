@@ -13,63 +13,13 @@ namespace database
 
     void DB_ReserveStreamMemory()
     {
-#pragma region One block allocation
-#if 0
-        // Try to reserve all possible size in one piece: around 800 mb.
-        byte* pMem = static_cast<byte*>(VirtualAlloc(nullptr, STREAM_OUT_SIZE + STREAM_SIZE + TEMP_STREAM_SIZE, MEM_RESERVE, PAGE_READWRITE));
-        if (pMem)
-        {
-            g_streamOutMemory = pMem;
-            g_streamMemory = g_streamOutMemory + STREAM_OUT_SIZE;
-            g_tempStreamMemory = g_streamMemory + STREAM_SIZE;
-            g_bPatchedAlloc = true;
-            return;
-    }
-#endif
-#pragma endregion
-
-#pragma region Original allocation
-#if 0
-        g_bPatchedAlloc = false; // I don't actually know if this code can be called more than once.
-
-        // Oops, we failed. Let's fall back to original code.
-        g_streamOutMemory = static_cast<byte*>(VirtualAlloc(0, STREAM_OUT_SIZE, MEM_RESERVE, PAGE_READWRITE));
-        QASSERTMSG(g_streamOutMemory, "VirtualAlloc returned NULL; may be out of memory");
-
-        g_streamMemory = static_cast<byte*>(VirtualAlloc(0, STREAM_SIZE, MEM_RESERVE, PAGE_READWRITE));
-        QASSERTMSG(g_streamMemory, "VirtualAlloc returned NULL; may be out of memory");
-
-        g_tempStreamMemory = static_cast<byte*>(VirtualAlloc(0, TEMP_STREAM_SIZE, MEM_RESERVE, PAGE_READWRITE));
-        QASSERTMSG(g_tempStreamMemory, "VirtualAlloc returned NULL; may be out of memory");
-#endif
-#pragma endregion
-
-#pragma region Static allocation
         g_streamOutMemory = g_HeapMem;
         g_streamMemory = g_streamOutMemory + STREAM_OUT_SIZE;
         g_tempStreamMemory = g_streamMemory + STREAM_SIZE;
-        //g_bPatchedAlloc = true;
-#pragma endregion
     }
 
     void DB_ReleaseStreamMemory()
     {
-#pragma region Original allocation
-#if 0
-        VirtualFree(g_streamOutMemory, 0, MEM_RELEASE);
-
-#pragma region One block allocation
-        // If we're reserving memory by patch logic then no additional release required.
-        // Otherwise we have to free other two data blocks.
-        if (!g_bPatchedAlloc)
-        {
-            VirtualFree(g_tempStreamMemory, 0, MEM_RELEASE);
-            VirtualFree(g_streamMemory, 0, MEM_RELEASE);
-        }
-#pragma endregion
-#endif
-#pragma endregion
-
         g_streamOutMemory = nullptr;
         g_tempStreamMemory = nullptr;
         g_streamMemory = nullptr;
@@ -107,12 +57,6 @@ namespace database
     {
         QASSERT(g_streamPosStart == g_streamMemory);
 
-#pragma region Original allocation
-#if 0
-        VirtualFree(g_streamMemory, STREAM_SIZE, MEM_DECOMMIT);
-#endif
-#pragma endregion
-
         g_streamPosStart = 0;
         g_streamPosSave = 0;
     }
@@ -121,12 +65,6 @@ namespace database
     {
         QASSERT(g_tempStreamPosStart == g_tempStreamMemory);
 
-#pragma region Original allocation
-#if 0
-        VirtualFree(g_tempStreamMemory, TEMP_STREAM_SIZE, MEM_DECOMMIT);
-#endif
-#pragma endregion
-
         g_tempStreamPosStart = 0;
         g_tempStreamPos = 0;
     }
@@ -134,12 +72,6 @@ namespace database
     void DB_FreeOutStream()
     {
         QASSERT(g_streamOut == g_streamOutMemory);
-
-#pragma region Original allocation
-#if 0
-        VirtualFree(g_streamOutMemory, STREAM_OUT_SIZE, MEM_DECOMMIT);
-#endif
-#pragma endregion
 
         g_streamOut = 0;
     }
@@ -150,18 +82,6 @@ namespace database
         QASSERT(g_tempStreamPos >= g_tempStreamPosStart);
         QASSERT(g_tempStreamPos + Size_ <= g_tempStreamPosStart + TEMP_STREAM_SIZE);
 
-#pragma region Original allocation
-#if 0
-        unsigned int startPage = PAGE_ROUNDUP((unsigned int)g_tempStreamPos.Raw());
-        unsigned int endPage = PAGE_ROUNDUP((unsigned int)g_tempStreamPos.Raw() + Size_);
-        if (startPage != endPage)
-        {
-            LPVOID buf = VirtualAlloc(reinterpret_cast<LPVOID>(startPage), endPage - startPage, MEM_COMMIT, PAGE_READWRITE);
-            QASSERT(buf);
-        }
-#endif
-#pragma endregion
-
         byte* pMem = g_tempStreamPos;
         g_tempStreamPos += Size_;
         return pMem;
@@ -170,12 +90,6 @@ namespace database
     void DB_ResetTempStream()
     {
         QASSERT(g_tempStreamPosStart);
-
-#pragma region Original allocation
-#if 0
-        VirtualFree(g_tempStreamPosStart, TEMP_STREAM_SIZE - (g_tempStreamPosStart - g_tempStreamMemory), MEM_DECOMMIT);
-#endif
-#pragma endregion
 
         g_tempStreamPos = g_tempStreamPosStart;
     }
@@ -207,18 +121,6 @@ namespace database
             {
                 QASSERT((g_streamOutPos + Size_) - g_streamOut <= STREAM_OUT_SIZE);
 
-#pragma region Original allocation
-#if 0
-                uint startPage = PAGE_ROUNDUP((uint)g_streamOutPos.Raw());
-                uint endPage = PAGE_ROUNDUP((uint)g_streamOutPos.Raw() + Size_);
-                if (startPage != endPage)
-                {
-                    LPVOID buf = VirtualAlloc((LPVOID)startPage, endPage - startPage, MEM_COMMIT, PAGE_READWRITE);
-                    QASSERT(buf);
-                }
-#endif
-#pragma endregion
-
                 memcpy(g_streamOutPos, Src_, Size_);
                 *Dst_ = g_streamOutPos;
                 g_streamOutPos += Size_;
@@ -234,18 +136,6 @@ namespace database
         QASSERT(g_streamPosSave);
         QASSERT(g_streamPosSave >= g_streamPosStart);
         QASSERT(g_streamPosSave + Size_ <= g_streamPosStart + STREAM_SIZE);
-
-#pragma region Original allocation
-#if 0
-        uint startPage = PAGE_ROUNDUP((uint)g_streamPosSave.Raw());
-        uint endPage = PAGE_ROUNDUP((uint)g_streamPosSave.Raw() + Size_);
-        if (startPage != endPage)
-        {
-            auto buf = VirtualAlloc((LPVOID)startPage, endPage - startPage, MEM_COMMIT, PAGE_READWRITE);
-            QASSERT(buf);
-        }
-#endif
-#pragma endregion
 
         byte* result = g_streamPosSave;
         g_streamPosSave += Size_;
@@ -284,8 +174,20 @@ namespace database
 
         for (int i = 1; i < MAX_XFILE_COUNT; ++i)
         {
-            g_streamZoneMem.Raw()->blocks[i].size = g_streamBlockMem[i] - (uint)g_streamZoneMem.Raw()->blocks[i].data;
+            g_streamZoneMem.Raw()->blocks[i].size = (uint)g_streamBlockMem[i] - (uint)g_streamZoneMem.Raw()->blocks[i].data;
             QASSERT(g_streamZoneMem.Raw()->blocks[i].size <= g_streamBlockSize[i]);
         }
+    }
+
+    void DB_InitZoneMem(xfile_t *pXFile_)
+    {
+        g_streamZoneMem = pXFile_;
+        g_streamPos = pXFile_->blocks[0].data;
+        g_streamPosIndex = 0;
+        g_streamDelayIndex = 0;
+        g_streamSize = 0;
+        g_streamPosStackIndex = 0;
+        for (int i = 0; i < MAX_XFILE_COUNT; ++i)
+            g_streamBlockMem[i] = pXFile_->blocks[i].data;
     }
 }
