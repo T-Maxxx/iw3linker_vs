@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include <cassert>
+#include <typeindex>
 
 class CModule;
 
@@ -15,20 +16,21 @@ public:
     void AddModule()
     {
         std::shared_ptr<CModule> spModule = std::make_unique<T>();
-        if (isModuleExist(spModule.get()))
+        std::type_index ti(typeid(T));
+        if (isModuleExist(ti))
         {
             assert(!"Module already exist");
             return;
         }
 
-        m_vModules.push_back(spModule);
+        m_vModules.emplace_back(ti, spModule);
     }
 
     void InitGlobals() const;
     void Patch() const;
 
 private:
-    bool isModuleExist(const CModule* pModule_) const;
+    bool isModuleExist(const std::type_index& TI_) const;
 
-    std::vector<std::shared_ptr<CModule>> m_vModules;
+    std::vector<std::pair<std::type_index, std::shared_ptr<CModule>>> m_vModules;
 };

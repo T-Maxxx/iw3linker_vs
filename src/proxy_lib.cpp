@@ -3,12 +3,6 @@
 #include <cstdio>
 
 
-using FPD3DXGetShaderOutputSemantics = HRESULT(WINAPI*)(const DWORD* pFunction, void* pSemantics, UINT* pCount);
-using FPD3DXCreateBuffer = HRESULT(WINAPI*)(DWORD NumBytes, DWORD ppBuffer);
-using FPD3DXGetShaderInputSemantics = HRESULT(WINAPI*)(const DWORD* pFunction, void* pSemantics, UINT* pCount);
-using FPD3DXGetShaderConstantTable = HRESULT(WINAPI*)(const DWORD* pFunction, void* ppConstantTable);
-
-
 template<class FP>
 FP GetLibFunction(HMODULE hLib_, const char* FunctionName_)
 {
@@ -48,23 +42,43 @@ bool CProxyLib::IsReady() const
 
 HRESULT CProxyLib::D3DXGetShaderOutputSemantics(const DWORD* pFunction, void* pSemantics, UINT* pCount)
 {
-    return GetLibFunction<FPD3DXGetShaderOutputSemantics>(m_hOriginalLib, "D3DXGetShaderOutputSemantics")(pFunction, pSemantics, pCount);
+    using D3DXGetShaderOutputSemantics_t = HRESULT(WINAPI*)(const DWORD*, void*, UINT*);
+    static D3DXGetShaderOutputSemantics_t fn = nullptr;
+    if (!fn)
+        fn = GetLibFunction<D3DXGetShaderOutputSemantics_t>(m_hOriginalLib, "D3DXGetShaderOutputSemantics");
+
+    return fn ? fn(pFunction, pSemantics, pCount) : -1;
 }
 
 
 HRESULT CProxyLib::D3DXCreateBuffer(DWORD NumBytes, DWORD ppBuffer)
 {
-    return GetLibFunction<FPD3DXCreateBuffer>(m_hOriginalLib, "D3DXCreateBuffer")(NumBytes, ppBuffer);
+    using D3DXCreateBuffer_t = HRESULT(WINAPI*)(DWORD, DWORD);
+    static D3DXCreateBuffer_t fn = nullptr;
+    if (!fn)
+        fn = GetLibFunction<D3DXCreateBuffer_t>(m_hOriginalLib, "D3DXCreateBuffer");
+
+    return fn ? fn(NumBytes, ppBuffer) : -1;
 }
 
 
 HRESULT CProxyLib::D3DXGetShaderInputSemantics(const DWORD* pFunction, void* pSemantics, UINT* pCount)
 {
-    return GetLibFunction<FPD3DXGetShaderInputSemantics>(m_hOriginalLib, "D3DXGetShaderInputSemantics")(pFunction, pSemantics, pCount);
+    using D3DXGetShaderInputSemantics_t = HRESULT(WINAPI*)(const DWORD*, void*, UINT*);
+    static D3DXGetShaderInputSemantics_t fn = nullptr;
+    if (!fn)
+        fn = GetLibFunction<D3DXGetShaderInputSemantics_t>(m_hOriginalLib, "D3DXGetShaderInputSemantics");
+
+    return fn ? fn(pFunction, pSemantics, pCount) : -1;
 }
 
 
 HRESULT CProxyLib::D3DXGetShaderConstantTable(const DWORD* pFunction, void* ppConstantTable)
 {
-    return GetLibFunction<FPD3DXGetShaderConstantTable>(m_hOriginalLib, "D3DXGetShaderConstantTable")(pFunction, ppConstantTable);
+    using FPD3DXGetShaderConstantTable_t = HRESULT(WINAPI*)(const DWORD*, void*);
+    static FPD3DXGetShaderConstantTable_t fn = nullptr;
+    if (!fn)
+        fn = GetLibFunction<FPD3DXGetShaderConstantTable_t>(m_hOriginalLib, "D3DXGetShaderConstantTable");
+
+    return fn ? fn(pFunction, ppConstantTable) : -1;
 }

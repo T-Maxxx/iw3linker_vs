@@ -48,7 +48,7 @@ namespace hooks
         };
 #pragma pack(pop)
 
-        SJumpHook* m_pOriginalInstruction;
+        SJumpHook m_Original;
         uint32_t m_iRawTarget;
     };
 }

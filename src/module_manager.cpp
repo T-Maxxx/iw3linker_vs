@@ -9,22 +9,22 @@ CModuleManager::~CModuleManager() = default;
 
 void CModuleManager::InitGlobals() const
 {
-    for (auto spModule : m_vModules)
+    for (const auto [_, spModule] : m_vModules)
         spModule->InitGlobals();
 }
 
 
 void CModuleManager::Patch() const
 {
-    for (auto spModule : m_vModules)
+    for (const auto [_, spModule] : m_vModules)
         spModule->Patch();
 }
 
 
-bool CModuleManager::isModuleExist(const CModule* pModule_) const
+bool CModuleManager::isModuleExist(const std::type_index& TI_) const
 {
-    for (const auto spModule : m_vModules)
-        if (typeid(spModule) == typeid(pModule_))
+    for (const auto [ti, _] : m_vModules)
+        if (ti == TI_)
             return true;
 
     return false;

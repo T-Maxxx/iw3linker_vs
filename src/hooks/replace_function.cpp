@@ -8,16 +8,14 @@
 namespace hooks
 {
     CReplaceFunc::~CReplaceFunc()
-    {
-        assert(!m_pOriginalInstruction && "WTF? Destructor called earlier than Release method RECHECK urself");
-    }
+    {}
 
     void CReplaceFunc::Install()
     {
-        assert(!m_pOriginalInstruction);
-        m_pOriginalInstruction = new SJumpHook();
+        if (IsInstalled())
+            return;
 
-        ReadFromMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
+        ReadFromMemory(CBaseHook::GetStartAddress(), &m_Original);
         SJumpHook hook;
         hook.OpCode = 0xe9;
         hook.JumpOffset = m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook);
@@ -28,10 +26,10 @@ namespace hooks
 
     void CReplaceFunc::Release()
     {
-        WriteToMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
-        delete m_pOriginalInstruction;
-        m_pOriginalInstruction = nullptr;
+        if (!IsInstalled())
+            return;
 
+        WriteToMemory(CBaseHook::GetStartAddress(), &m_Original);
         SetInstalled(false);
     }
 }
