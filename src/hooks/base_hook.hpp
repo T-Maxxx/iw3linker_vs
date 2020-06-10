@@ -1,7 +1,7 @@
 #pragma once
-#include "Types.h"
+#include <cstdint>
 
-namespace hooklib
+namespace hooks
 {
     /**
     \brief A base class for every hook in this library.
@@ -13,14 +13,14 @@ namespace hooklib
         \brief Constructor.
         \param [in] Address_ - an address of this hook.
         */
-        CBaseHook(uint Address_);
+        CBaseHook(uint32_t Address_);
 
         /**
         \brief Constructor.
         \param [in] Address_ - an address of this hook.
         \param [in] Size_ - count of bytes captured with this hook.
         */
-        CBaseHook(uint Address_, uint Size_);
+        CBaseHook(uint32_t Address_, uint32_t Size_);
 
         /**
         \brief Destructor.
@@ -46,13 +46,13 @@ namespace hooklib
         /**
         \brief Returns address of first byte captured by this hook.
         */
-        uint GetStartAddress() const;
+        uint32_t GetStartAddress() const;
 
         /**
         \brief Returns address of last byte captured by this hook.
         \note Total size of captured memory: GetEndAddress() - GetStartAddress() + 1
         */
-        uint GetEndAddress() const;
+        uint32_t GetEndAddress() const;
 
     protected:
         /**
@@ -67,8 +67,8 @@ namespace hooklib
         void SetInstalled(bool bState_);
 
     private:
-        uint m_StartAddress;    // Address of first byte.
-        uint m_EndAddress;      // Address of last byte.
+        uint32_t m_StartAddress;    // Address of first byte.
+        uint32_t m_EndAddress;      // Address of last byte.
         bool m_bInstalled;      // This hook is installed.
     };
 }

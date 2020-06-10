@@ -1,7 +1,7 @@
 #pragma once
-#include "HookStorage.h"
+#include "hook_storage.hpp"
 
-namespace hooklib
+namespace hooks
 {
     /**
     \brief A hook to capture native array of type T and size N.
@@ -14,7 +14,7 @@ namespace hooklib
         \brief Create new native array hook and return reference to it.
         \param [in] Address_ - an address of first element of array.
         */
-        static CGlobalArr& Create(uint Address_)
+        static CGlobalArr& Create(uint32_t Address_)
         {
             return *static_cast<CGlobalArr*>(CHookStorage::Instance().AddHook(new CGlobalArr(Address_)));
         }
@@ -30,7 +30,7 @@ namespace hooklib
 
 
     private:
-        CGlobalArr(uint Address_)
+        CGlobalArr(uint32_t Address_)
             : CBaseHook(Address_, N * sizeof(T))
         {}
     };

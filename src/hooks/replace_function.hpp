@@ -1,8 +1,9 @@
 #pragma once
-#include "BaseHook.h"
-#include "HookStorage.h"
+#include "hook_storage.hpp"
+#include "base_hook.hpp"
 
-namespace hooklib
+
+namespace hooks
 {
     /**
     \brief Replace native function call with our own. Keep calling convention the same and everything will be fine.
@@ -18,7 +19,7 @@ namespace hooklib
         \return A reference to instance.
         */
         template <class T>
-        static CReplaceFunc& Create(uint StartAddress_, uint EndAddress_, T Replacement_)
+        static CReplaceFunc& Create(uint32_t StartAddress_, uint32_t EndAddress_, T Replacement_)
         {
             return *static_cast<CReplaceFunc*>(CHookStorage::Instance().AddHook(new CReplaceFunc(StartAddress_, EndAddress_, Replacement_)));
         }
@@ -31,15 +32,23 @@ namespace hooklib
         \brief Constructor. Same parameters as in factory.
         */
         template <class T>
-        CReplaceFunc(uint StartAddress_, uint EndAddress_, T Replacement_)
+        CReplaceFunc(uint32_t StartAddress_, uint32_t EndAddress_, T Replacement_)
             : CBaseHook(StartAddress_, EndAddress_ - StartAddress_ + 1)
         {
-            m_iRawTarget = reinterpret_cast<uint>(Replacement_);
+            m_iRawTarget = reinterpret_cast<uint32_t>(Replacement_);
         }
 
         ~CReplaceFunc();
 
+#pragma pack(push, 1)
+        struct SJumpHook
+        {
+            uint8_t OpCode = 0;
+            int32_t JumpOffset = 0;
+        };
+#pragma pack(pop)
+
         SJumpHook* m_pOriginalInstruction;
-        uint m_iRawTarget;
+        uint32_t m_iRawTarget;
     };
 }

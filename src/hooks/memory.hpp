@@ -1,7 +1,8 @@
 #pragma once
-#include "Types.h"
+#include <cstdint>
 
-namespace hooklib
+
+namespace hooks
 {
     enum EProtectMemoryFlags
     {
@@ -20,13 +21,13 @@ namespace hooklib
     EProtectMemoryFlags ProtectMemory(void* Where_, size_t Size_, EProtectMemoryFlags NewProtectType_);
 
     template <class T>
-    void ReadFromMemory(uint FromAddress_, T* ToStorage_)
+    void ReadFromMemory(uint32_t FromAddress_, T* ToStorage_)
     {
         ReadFromMemory(reinterpret_cast<void*>(FromAddress_), ToStorage_, sizeof(T));
     }
 
     template <class T>
-    void WriteToMemory(uint ToAddress_, const T* FromStorage_)
+    void WriteToMemory(uint32_t ToAddress_, const T* FromStorage_)
     {
         WriteToMemory(reinterpret_cast<void*>(ToAddress_), FromStorage_, sizeof(T));
     }

@@ -1,8 +1,8 @@
-#include "stdafx.h"
-#include "JumpHook.h"
-#include "Memory.h"
+#include "jump_hook.hpp"
+#include "memory.hpp"
 
-namespace hooklib
+
+namespace hooks
 {
     CJumpHook::~CJumpHook()
     {
@@ -12,7 +12,9 @@ namespace hooklib
     void CJumpHook::Install()
     {
         ReadFromMemory(CBaseHook::GetStartAddress(), &m_OriginalInstruction);
-        SJumpHook hook(m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook), m_bCallHook);
+        SJumpHook hook;
+        hook.OpCode = m_bCallHook ? 0xE8 : 0xE9;
+        hook.JumpOffset = m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook);
         WriteToMemory(CBaseHook::GetStartAddress(), &hook);
 
         SetInstalled(true);
@@ -21,7 +23,6 @@ namespace hooklib
     void CJumpHook::Release()
     {
         WriteToMemory(CBaseHook::GetStartAddress(), &m_OriginalInstruction);
-
         SetInstalled(false);
     }
 }

@@ -1,7 +1,11 @@
-#include "stdafx.h"
-#include "Memory.h"
+#include "memory.hpp"
 
-namespace hooklib
+#include <cstring>
+#include <cassert>
+#include <Windows.h>
+
+
+namespace hooks
 {
     void ReadFromMemory(void* FromAddress_, void * ToStorage_, size_t Size_)
     {
@@ -76,4 +80,4 @@ namespace hooklib
         return winFlag2ProtectFlags(dwOldProtect);
 #endif
     }
-} // end namespace hooklib
+} // end namespace hooks

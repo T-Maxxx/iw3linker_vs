@@ -1,19 +1,17 @@
-#include "stdafx.h"
-#include "Module.h"
+#include "module.hpp"
 
 
-namespace modman
-{
-    CModule::CModule()
-    {}
+CModule::CModule()
+{}
 
 
-    CModule::~CModule()
-    {}
+CModule::~CModule()
+{}
 
-    void CModule::InitGlobals() const
-    {}
 
-    void CModule::Patch() const
-    {}
-}
+void CModule::InitGlobals() const
+{}
+
+
+void CModule::Patch() const
+{}

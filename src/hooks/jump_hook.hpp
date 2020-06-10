@@ -1,8 +1,8 @@
 #pragma once
-#include "BaseHook.h"
-#include "HookStorage.h"
+#include "base_hook.hpp"
 
-namespace hooklib
+
+namespace hooks
 {
     /**
     \brief A hook used to setup "jmp XXX" or "call XXX" instructions in native code.
@@ -19,7 +19,7 @@ namespace hooklib
         \return Reference to instance.
         */
         template <class T>
-        static CJumpHook& Create(uint Address_, T JumpTo_, bool bCallHook_ = false)
+        static CJumpHook& Create(uint32_t Address_, T JumpTo_, bool bCallHook_ = false)
         {
             return *static_cast<CJumpHook*>(CHookStorage::Instance().AddHook(new CJumpHook(Address_, JumpTo_, bCallHook_)));
         }
@@ -32,17 +32,24 @@ namespace hooklib
         \brief Constructor. Same params as for factory.
         */
         template<class T>
-        CJumpHook(uint Address_, T JumpTo_, bool bCallHook_ = false)
+        CJumpHook(uint32_t Address_, T JumpTo_, bool bCallHook_ = false)
             : CBaseHook(Address_, sizeof(SJumpHook))
         {
-            m_iRawTarget = reinterpret_cast<uint>(JumpTo_);
+            m_iRawTarget = reinterpret_cast<uint32_t>(JumpTo_);
             m_bCallHook = bCallHook_;
         }
 
         ~CJumpHook();
+#pragma pack(push, 1)
+        struct SJumpHook
+        {
+            uint8_t OpCode = 0;
+            int32_t JumpOffset = 0;
+        };
+#pragma pack(pop)
 
         SJumpHook m_OriginalInstruction;
-        uint m_iRawTarget;
+        uint32_t m_iRawTarget;
         bool m_bCallHook;
     };
 }

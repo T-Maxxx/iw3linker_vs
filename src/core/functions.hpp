@@ -1,9 +1,8 @@
 #pragma once
-#include <hooklib\hooklib.h>
+#include "hooks/native_function.hpp"
 
-namespace common
+namespace core
 {
     using FPComAssert = void(*)(const char *FilePath_, int Line_, int Unknown_, const char *MsgFormat_, ...);
-
-    extern hooklib::CNativeFunc<FPComAssert>& Com_Assert;
+    extern hooks::CNativeFunc<FPComAssert>& Com_Assert;
 }

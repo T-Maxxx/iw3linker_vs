@@ -1,8 +1,8 @@
 #pragma once
-#include "BaseHook.h"
-#include "HookStorage.h"
+#include "base_hook.hpp"
+#include "hook_storage.hpp"
 
-namespace hooklib
+namespace hooks
 {
     /**
     \brief A helper class used to execute function from native code.
@@ -17,7 +17,7 @@ namespace hooklib
         \param [in] StartAddress_ - an address of first byte of a function.
         \param [in] EndAddress_ - an address of LAST BYTE of a function.
         */
-        static CNativeFunc& Create(uint StartAddress_, uint EndAddress_)
+        static CNativeFunc& Create(uint32_t StartAddress_, uint32_t EndAddress_)
         {
             return *static_cast<CNativeFunc*>(CHookStorage::Instance().AddHook(new CNativeFunc<Type_>(StartAddress_, EndAddress_)));
         }
@@ -27,18 +27,18 @@ namespace hooklib
         */
         operator Type_ ()
         {
-            return Invoke;
+            return m_Pointer;
         }
         
     private:
         /**
         \brief Constructor. Same params as in factory.
         */
-        CNativeFunc(uint StartAddress_, uint EndAddress_) : CBaseHook(StartAddress_, EndAddress_ - StartAddress_ + 1)
+        CNativeFunc(uint32_t StartAddress_, uint32_t EndAddress_) : CBaseHook(StartAddress_, EndAddress_ - StartAddress_ + 1)
         {
-            Invoke = reinterpret_cast<Type_>(StartAddress_);
+            m_Pointer = reinterpret_cast<Type_>(StartAddress_);
         }
 
-        Type_ Invoke;
+        Type_ m_Pointer;
     };
 }

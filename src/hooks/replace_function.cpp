@@ -1,8 +1,11 @@
-#include "stdafx.h"
-#include "ReplaceFunc.h"
-#include "Memory.h"
+#include "replace_function.hpp"
 
-namespace hooklib
+#include <cassert>
+
+#include "memory.hpp"
+
+
+namespace hooks
 {
     CReplaceFunc::~CReplaceFunc()
     {
@@ -15,7 +18,9 @@ namespace hooklib
         m_pOriginalInstruction = new SJumpHook();
 
         ReadFromMemory(CBaseHook::GetStartAddress(), m_pOriginalInstruction);
-        SJumpHook hook(m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook), false);
+        SJumpHook hook;
+        hook.OpCode = 0xe9;
+        hook.JumpOffset = m_iRawTarget - CBaseHook::GetStartAddress() - sizeof(SJumpHook);
         WriteToMemory(CBaseHook::GetStartAddress(), &hook);
 
         SetInstalled(true);

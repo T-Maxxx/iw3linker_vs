@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseHook.h"
-#include "Memory.h"
-#include "HookStorage.h"
+#include "base_hook.hpp"
+#include "memory.hpp"
 
-namespace hooklib
+
+namespace hooks
 {
     /**
     \brief Helper class to access global variable by its address.
@@ -18,7 +18,7 @@ namespace hooklib
         \param [in] Address_ - an address of a variable.
         \return A reference to instance.
         */
-        static CGlobalVar& Create(uint Address_)
+        static CGlobalVar& Create(uint32_t Address_)
         {
             return *static_cast<CGlobalVar<T>*>(CHookStorage::Instance().AddHook(new CGlobalVar<T>(Address_)));
         }
@@ -76,7 +76,7 @@ namespace hooklib
         \brief Constructor.
         \param [in] Address_ - address of global variable in native code.
         */
-        CGlobalVar(uint Address_) : CBaseHook(Address_, sizeof(T))
+        CGlobalVar(uint32_t Address_) : CBaseHook(Address_, sizeof(T))
         {}
     };
 }

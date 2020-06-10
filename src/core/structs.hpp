@@ -1,9 +1,10 @@
 #pragma once
-#include "utility/types.h"
+#include <cstdint>
 
-namespace database
+
+namespace core
 {
-    enum EBlockType
+    enum BlockType
     {
         XFILE_BLOCK_TEMP = 0,
         XFILE_BLOCK_RUNTIME,
@@ -20,10 +21,10 @@ namespace database
 
     struct xblock_t
     {
-        utility::byte* data;
-        utility::uint size;
+        uint8_t* data;
+        uint32_t size;
     };
-    
+
     struct xfile_t
     {
         xblock_t blocks[MAX_XFILE_COUNT];

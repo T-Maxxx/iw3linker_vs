@@ -1,8 +1,11 @@
 #pragma once
 #include <list>
-#include "BaseHook.h"
+#include <memory>
 
-namespace hooklib
+
+namespace hooks { class CBaseHook; }
+
+namespace hooks
 {
     /**
     \brief The only storage for hooks used with this library. 
@@ -10,9 +13,8 @@ namespace hooklib
     */
     class CHookStorage
     {
-        DECLARE_SINGLETON(CHookStorage)
-
     public:
+        static CHookStorage& Instance();
 
         /**
         \brief Add new hook in storage.
@@ -40,6 +42,7 @@ namespace hooklib
         // Returns hook which intersects with passed one.
         const CBaseHook* findIntersection(const CBaseHook* pHook_) const;
 
-        std::list<CBaseHook*> m_lstHooks; // Storage.
+    private:
+        std::list<std::shared_ptr<CBaseHook>> m_lstHooks; // Storage.
     };
 }

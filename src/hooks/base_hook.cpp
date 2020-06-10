@@ -1,14 +1,13 @@
-#include "stdafx.h"
-#include "BaseHook.h"
+#include "base_hook.hpp"
 
-namespace hooklib
+namespace hooks
 {
-    CBaseHook::CBaseHook(uint Address_) 
+    CBaseHook::CBaseHook(uint32_t Address_)
         : CBaseHook(Address_, 1)
     {}
 
     
-    CBaseHook::CBaseHook(uint Address_, uint Size_)
+    CBaseHook::CBaseHook(uint32_t Address_, uint32_t Size_)
         : m_StartAddress(Address_)
         , m_EndAddress(Address_ + Size_ - 1)
     {
@@ -17,13 +16,8 @@ namespace hooklib
 
     CBaseHook::~CBaseHook()
     {
-        // This destructor called always last. So need to check if child class
-        //   was destructed proper.
         if (IsInstalled())
-        {
-            assert(!"This class was not properly destructed");
             Release();
-        }
     }
 
     
@@ -42,13 +36,13 @@ namespace hooklib
     }
 
 
-    uint CBaseHook::GetStartAddress() const
+    uint32_t CBaseHook::GetStartAddress() const
     {
         return m_StartAddress;
     }
 
 
-    uint CBaseHook::GetEndAddress() const
+    uint32_t CBaseHook::GetEndAddress() const
     {
         return m_EndAddress;
     }
