@@ -39,6 +39,6 @@ namespace hooks
             m_Pointer = reinterpret_cast<Type_>(StartAddress_);
         }
 
-        Type_ m_Pointer;
+        Type_ m_Pointer = nullptr;
     };
 }

@@ -67,8 +67,8 @@ namespace hooks
         void SetInstalled(bool bState_);
 
     private:
-        uint32_t m_StartAddress;    // Address of first byte.
-        uint32_t m_EndAddress;      // Address of last byte.
-        bool m_bInstalled;      // This hook is installed.
+        uint32_t m_StartAddress = 0;    // Address of first byte.
+        uint32_t m_EndAddress = 0;      // Address of last byte.
+        bool m_bInstalled = false;      // This hook is installed.
     };
 }

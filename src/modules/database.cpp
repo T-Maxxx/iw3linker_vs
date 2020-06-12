@@ -139,7 +139,7 @@ namespace modules
                 *Dst_ = nullptr;
                 if (g_streamPosIndex != 1)
                 {
-                    QASSERTFMT(g_streamDelayIndex < 0x1000, "g_streamDelayIndex doesn't index ARRAY_COUNT( g_streamDelayArray )\n\t%i not in [0, %i)", g_streamDelayIndex, 4096);
+                    QASSERTFMT(g_streamDelayIndex < 0x1000, "g_streamDelayIndex doesn't index ARRAY_COUNT( g_streamDelayArray )\n\t%i not in [0, %i)", g_streamDelayIndex.Raw(), 4096);
                     g_streamDelayArray[2 * g_streamDelayIndex] = (int)Src_;
                     g_streamDelayArray[2 * g_streamDelayIndex + 1] = Size_;
                     g_streamDelayIndex += 1;

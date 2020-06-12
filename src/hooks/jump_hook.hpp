@@ -49,7 +49,7 @@ namespace hooks
 #pragma pack(pop)
 
         SJumpHook m_OriginalInstruction;
-        uint32_t m_iRawTarget;
-        bool m_bCallHook;
+        uint32_t m_iRawTarget = 0;
+        bool m_bCallHook = false;
     };
 }

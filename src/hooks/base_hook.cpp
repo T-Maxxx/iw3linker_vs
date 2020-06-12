@@ -10,8 +10,7 @@ namespace hooks
     CBaseHook::CBaseHook(uint32_t Address_, uint32_t Size_)
         : m_StartAddress(Address_)
         , m_EndAddress(Address_ + Size_ - 1)
-    {
-    }
+    {}
 
 
     CBaseHook::~CBaseHook()

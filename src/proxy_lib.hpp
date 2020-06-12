@@ -17,5 +17,5 @@ private:
     CProxyLib();
     ~CProxyLib();
 
-    HMODULE m_hOriginalLib;
+    HMODULE m_hOriginalLib = nullptr;
 };

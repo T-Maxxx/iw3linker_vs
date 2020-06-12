@@ -7,6 +7,7 @@ file(GLOB_RECURSE INC src/*.hpp src/*.h)
 
 add_library(${PROJECT_NAME} SHARED ${SRC} ${INC})
 target_include_directories(${PROJECT_NAME} PRIVATE src)
+target_compile_options(${PROJECT_NAME} PRIVATE /WX /W4)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC} ${INC})
 

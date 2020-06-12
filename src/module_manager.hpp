@@ -32,5 +32,6 @@ public:
 private:
     bool isModuleExist(const std::type_index& TI_) const;
 
+private:
     std::vector<std::pair<std::type_index, std::shared_ptr<CModule>>> m_vModules;
 };
